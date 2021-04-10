@@ -33,7 +33,7 @@ namespace InnovamatTechnicalChallenge.ConfigurationObjects
             {
                 NumberToTextSpanish numberToText = (target as NumberToTextSpanish);
 
-                numberToTest = Random.Range(0, 9999);
+                numberToTest = Random.Range(0, 999999);
                 result = numberToText.GetTextFromNumber(numberToTest);
             }
             GUILayout.EndHorizontal();

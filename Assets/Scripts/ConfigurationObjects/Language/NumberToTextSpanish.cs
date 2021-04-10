@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using UnityEngine;
 
 namespace InnovamatTechnicalChallenge.ConfigurationObjects
@@ -39,16 +40,11 @@ namespace InnovamatTechnicalChallenge.ConfigurationObjects
              { 5, "quince" }
         };
 
-
-        //   { 9, "nove" },
-        //   { 7, "sete" },
-        //   { 5, "quin" },
-
         public override string GetTextFromNumber(int number)
         {
             string l_NumberText = "";
 
-            l_NumberText += GetFirstThousands(number);
+            l_NumberText += GetThousands(number);
             l_NumberText += GetHundreds(number);
             l_NumberText += GetTens(number);
             l_NumberText += GetUnits(number);
@@ -56,17 +52,14 @@ namespace InnovamatTechnicalChallenge.ConfigurationObjects
             return l_NumberText;
         }
 
-        private string GetFirstThousands(int number)
+        private string GetThousands(int number)
         {
             if (number < 1000)
                 return "";
 
-            int onlyThousandNumber = GetPlace(number, 1000);
+            int numberWithoutHundredstensandUnits=(int)(number/1000.0f);
 
-            if (onlyThousandNumber == 1)
-                return "mil ";
-
-            return units[onlyThousandNumber] + " mil ";
+            return GetTextFromNumber(numberWithoutHundredstensandUnits)+ " mil ";
         }
 
         private string GetHundreds(int number)
