@@ -1,5 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using UnityEngine;
 
 namespace InnovamatTechnicalChallenge.ConfigurationObjects
@@ -56,10 +55,19 @@ namespace InnovamatTechnicalChallenge.ConfigurationObjects
         {
             if (number < 1000)
                 return "";
+            if (number < 2000)
+                return "mil ";
 
-            int numberWithoutHundredstensandUnits=(int)(number/1000.0f);
+            int numberWithoutHundredstensandUnits = (int)(number / 1000.0f);
 
-            return GetTextFromNumber(numberWithoutHundredstensandUnits)+ " mil ";
+            return GetTextFromNumber(numberWithoutHundredstensandUnits) + "mil ";
+
+            int onlyThousandNumber = GetPlace(number, 1000);
+
+            if (onlyThousandNumber == 1)
+                return "mil ";
+
+            return units[onlyThousandNumber] + " mil ";
         }
 
         private string GetHundreds(int number)
@@ -69,11 +77,15 @@ namespace InnovamatTechnicalChallenge.ConfigurationObjects
 
             int onlyHundredNumber = GetPlace(number, 100);
 
+            if (onlyHundredNumber == 0)
+            {
+                return "";
+            }
             if (number == 100)
             {
                 return "cien ";
             }
-            else if (onlyHundredNumber < 1)
+            else if (onlyHundredNumber == 1)
             {
                 return "ciento ";
             }
@@ -139,13 +151,13 @@ namespace InnovamatTechnicalChallenge.ConfigurationObjects
             {
                 return "cero";
             }
-            if (onlyUnitNumber == 0 || onlyTenNumber > 10 && onlyTenNumber < 16)
+            if (onlyUnitNumber == 0 || (onlyTenNumber == 1 && (onlyUnitNumber > 0 && onlyUnitNumber < 6)))
             {
                 return "";
             }
             else
             {
-                return units[onlyUnitNumber];
+                return units[onlyUnitNumber]+" ";
             }
         }
     }
