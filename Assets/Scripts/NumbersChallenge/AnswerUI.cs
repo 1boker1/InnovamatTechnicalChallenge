@@ -5,8 +5,8 @@ namespace InnovamatTechnicalChallenge.NumberGame
 {
     public class AnswerUI : ChallengePart
     {
-        public UINumberButton answerPrefab;
-        public List<UINumberButton> answers = new List<UINumberButton>();
+        public ChallengeOptionUI answerPrefab;
+        public List<ChallengeOptionUI> answers = new List<ChallengeOptionUI>();
 
         public Animation canvasAnimation;
         public AnimationClip fadeInAnimation;

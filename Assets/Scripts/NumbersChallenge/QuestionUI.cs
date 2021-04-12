@@ -21,6 +21,8 @@ namespace InnovamatTechnicalChallenge.NumberGame
 
         public override void Show()
         {
+            gameObject.SetActive(true);
+
             PlayAnimation(fadeInAnimation);
             StartCoroutine(WaitToHide());
         }
