@@ -4,6 +4,8 @@ namespace InnovamatTechnicalChallenge.ConfigurationObjects
 {
     public abstract class NumberToTextConfiguration : ScriptableObject
     {
+        public int maxNumber;
+
         public abstract string GetTextFromNumber(int Number);
 
         public int GetPlace(int value, int place)
