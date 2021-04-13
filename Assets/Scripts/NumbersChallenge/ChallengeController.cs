@@ -1,4 +1,5 @@
 ﻿using InnovamatTechnicalChallenge.ConfigurationObjects;
+using InnovamatTechnicalChallenge.SOArchitecture;
 using UnityEngine;
 
 namespace InnovamatTechnicalChallenge.NumberGame
@@ -11,11 +12,18 @@ namespace InnovamatTechnicalChallenge.NumberGame
         public ChallengePart questionPanel;
         public ChallengePart answerPanel;
 
+        public IntValue correctAnswers;
+        public IntValue wrongAnswers;
+
         public Challenge CurrentChallenge { get; set; }
 
+        private void Start()
+        {
+            StartGame();
+        }
         public void StartGame()
         {
-
+            NextChallenge();
         }
         public void NextChallenge()
         {

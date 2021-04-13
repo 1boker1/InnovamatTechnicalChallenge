@@ -1,5 +1,6 @@
 ﻿using System.Collections;
 using UnityEngine;
+using UnityEngine.Events;
 using UnityEngine.UI;
 
 namespace InnovamatTechnicalChallenge.NumberGame
@@ -14,6 +15,8 @@ namespace InnovamatTechnicalChallenge.NumberGame
         public AnimationClip fadeInAnimation;
         public AnimationClip fadeOutAnimation;
 
+        public UnityEvent OnQuestionDissappear;
+
         public override void SetUp(Challenge currentChallenge)
         {
             enunciate.text = currentChallenge.enunciate;
@@ -24,7 +27,6 @@ namespace InnovamatTechnicalChallenge.NumberGame
             gameObject.SetActive(true);
 
             PlayAnimation(fadeInAnimation);
-            StartCoroutine(WaitToHide());
         }
 
         private IEnumerator WaitToHide()
@@ -32,6 +34,16 @@ namespace InnovamatTechnicalChallenge.NumberGame
             yield return new WaitForSeconds(timeUntilHidePanel);
 
             Hide();
+        }
+
+        public void OnEndFadeIn()
+        {
+            StartCoroutine(WaitToHide());
+        }
+
+        public void OnEndFadeOut()
+        {
+            OnQuestionDissappear.Invoke();
         }
 
         public override void Hide()

@@ -12,3 +12,4 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: fd2fa3bd765708046b0ffb270f8ff966, type: 3}
   m_Name: NumberToTextSpanish
   m_EditorClassIdentifier: 
+  maxNumber: 999999

@@ -1,5 +1,7 @@
-﻿using System.Collections.Generic;
+﻿using InnovamatTechnicalChallenge.SOArchitecture;
+using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.Events;
 
 namespace InnovamatTechnicalChallenge.NumberGame
 {
@@ -12,12 +14,29 @@ namespace InnovamatTechnicalChallenge.NumberGame
         public AnimationClip fadeInAnimation;
         public AnimationClip fadeOutAnimation;
 
+        public IntValue passedScore;
+        public IntValue failedScore;
+        public IntValue currentTries;
+        private ChallengeOptionUI correctAnswer;
+
+        public UnityEvent OnHideAnswers;
+
+        private void OnEnable()
+        {
+            failedScore.OnValueChange += OnFailedChoice;
+            passedScore.OnValueChange += OnGoodChoice;
+        }
+
         public override void SetUp(Challenge currentChallenge)
         {
+            currentTries.RuntimeValue=0;
             ManageAnswersPrefabList(currentChallenge.answers.Length);
 
             for (int i = 0; i < currentChallenge.answers.Length; i++)
             {
+                if (currentChallenge.answers[i] == currentChallenge.correctAnswer)
+                    correctAnswer = answers[i];
+
                 answers[i].SetUpNumber(currentChallenge.answers[i], currentChallenge.answers[i] == currentChallenge.correctAnswer);
             }
         }
@@ -32,6 +51,11 @@ namespace InnovamatTechnicalChallenge.NumberGame
         {
             canvasAnimation.clip = fadeOutAnimation;
             canvasAnimation.Play();
+        }
+
+        public void OnHideAnimationEnded()
+        {
+            OnHideAnswers.Invoke();
         }
 
         public void ManageAnswersPrefabList(int Amount)
@@ -50,6 +74,24 @@ namespace InnovamatTechnicalChallenge.NumberGame
             {
                 answers[i].Enable(i < Amount);
             }
+        }
+
+        public void OnFailedChoice()
+        {
+            correctAnswer.SetColorButton(correctAnswer.buttonConfiguration.goodChoiceColor);
+
+            Hide();
+        }
+
+        public void OnGoodChoice()
+        {
+            Hide();
+        }
+
+        private void OnDisable()
+        {
+            failedScore.OnValueChange -= OnFailedChoice;
+            passedScore.OnValueChange -= OnGoodChoice;
         }
     }
 }

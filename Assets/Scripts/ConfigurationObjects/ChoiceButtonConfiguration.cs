@@ -9,7 +9,6 @@ namespace InnovamatTechnicalChallenge.ConfigurationObjects
     {
         public Color wrongChoiceColor;
         public Color goodChoiceColor;
-
-        public AnimationClip fadeAnimationClip;
+        public Color initialColor=Color.white;
     }
 }

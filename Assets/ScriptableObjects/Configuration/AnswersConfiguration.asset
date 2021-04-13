@@ -9,7 +9,8 @@ MonoBehaviour:
   m_GameObject: {fileID: 0}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 0450c2964a3e8ab4b9a254e9c959caca, type: 3}
-  m_Name: PassedQuestions
+  m_Script: {fileID: 11500000, guid: 8bff875a5ce673444a82a5b8f40bb24b, type: 3}
+  m_Name: AnswersConfiguration
   m_EditorClassIdentifier: 
-  value: 0
+  amountOfAnswers: 3
+  maxDifferenceToAnswer: 100

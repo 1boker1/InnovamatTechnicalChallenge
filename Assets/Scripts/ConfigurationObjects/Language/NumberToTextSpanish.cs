@@ -61,13 +61,6 @@ namespace InnovamatTechnicalChallenge.ConfigurationObjects
             int numberWithoutHundredstensandUnits = (int)(number / 1000.0f);
 
             return GetTextFromNumber(numberWithoutHundredstensandUnits) + "mil ";
-
-            int onlyThousandNumber = GetPlace(number, 1000);
-
-            if (onlyThousandNumber == 1)
-                return "mil ";
-
-            return units[onlyThousandNumber] + " mil ";
         }
 
         private string GetHundreds(int number)
