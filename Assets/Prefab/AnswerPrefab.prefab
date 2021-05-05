@@ -168,16 +168,16 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 303369a38c54b4d499e6153e1ccba0b0, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  currentTry: {fileID: 11400000, guid: 9f46aa45bf241614b975459442e95782, type: 2}
-  passedScore: {fileID: 11400000, guid: 91141447a330fc54a90b000451e75b62, type: 2}
-  failedScore: {fileID: 11400000, guid: 5f0b1016a029a574db9f3e9d391fe02b, type: 2}
-  buttonConfiguration: {fileID: 11400000, guid: 8122af8108fd4834e9c5780071b7451a,
+  _currentTry: {fileID: 11400000, guid: 9f46aa45bf241614b975459442e95782, type: 2}
+  _passedScore: {fileID: 11400000, guid: 91141447a330fc54a90b000451e75b62, type: 2}
+  _failedScore: {fileID: 11400000, guid: 5f0b1016a029a574db9f3e9d391fe02b, type: 2}
+  _buttonConfiguration: {fileID: 11400000, guid: 8122af8108fd4834e9c5780071b7451a,
     type: 2}
-  buttonAnimation: {fileID: 7940983082148057974}
-  fadeAnimation: {fileID: 7400000, guid: 8f9e22422aaffab4f85f58d62f01a163, type: 2}
-  image: {fileID: 8939209390925598470}
-  button: {fileID: 206569319518226233}
-  number: {fileID: 4594634697493411876}
+  _buttonAnimation: {fileID: 7940983082148057974}
+  _fadeAnimation: {fileID: 7400000, guid: 8f9e22422aaffab4f85f58d62f01a163, type: 2}
+  _image: {fileID: 8939209390925598470}
+  _button: {fileID: 206569319518226233}
+  _number: {fileID: 4594634697493411876}
 --- !u!114 &206569319518226233
 MonoBehaviour:
   m_ObjectHideFlags: 0

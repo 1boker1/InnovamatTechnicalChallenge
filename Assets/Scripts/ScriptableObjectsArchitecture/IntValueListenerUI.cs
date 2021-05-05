@@ -1,27 +1,31 @@
-﻿using InnovamatTechnicalChallenge.SOArchitecture;
-using UnityEngine;
+﻿using UnityEngine;
 using UnityEngine.UI;
 
-public class IntValueListenerUI : MonoBehaviour
+namespace ScriptableObjectsArchitecture
 {
-    public IntValue value;
-
-    public Text textValue;
-
-    private void OnEnable()
+    public class IntValueListenerUI : MonoBehaviour
     {
-        value.OnValueChange += Updatetext;
+        [SerializeField]
+        private IntValue _value;
 
-        Updatetext();
-    }
+        [SerializeField]
+        private Text _textValue;
 
-    private void Updatetext()
-    {
-        textValue.text = value.RuntimeValue.ToString();
-    }
+        private void Awake()
+        {
+            _value.OnValueChange += UpdateText;
 
-    private void OnDisable()
-    {
-        value.OnValueChange -= Updatetext;
+            UpdateText();
+        }
+
+        private void OnDestroy()
+        {
+            _value.OnValueChange -= UpdateText;
+        }
+
+        private void UpdateText()
+        {
+            _textValue.text = _value.RuntimeValue.ToString();
+        }
     }
 }

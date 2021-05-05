@@ -1,6 +1,6 @@
 ﻿using UnityEngine;
 
-namespace InnovamatTechnicalChallenge.NumberGame
+namespace NumbersChallenge
 {
     public abstract class ChallengePart : MonoBehaviour
     {

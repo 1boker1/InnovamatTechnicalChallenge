@@ -1,22 +1,35 @@
 ﻿using System;
 using UnityEngine;
 
-namespace InnovamatTechnicalChallenge.SOArchitecture
+namespace ScriptableObjectsArchitecture
 {
     [CreateAssetMenu(fileName = "IntValue")]
     [Serializable]
     public class IntValue : ScriptableObject, ISerializationCallbackReceiver
     {
         public delegate void OnValueChangeDelegate();
-        public event OnValueChangeDelegate OnValueChange;
 
-        private int runtimeValue;
-        public int RuntimeValue { get => runtimeValue; set { runtimeValue = value; OnValueChange?.Invoke(); } }
+        [SerializeField]
+        private int _value;
 
-        [SerializeField] private int value;
+        private int _runtimeValue;
 
-        public void OnAfterDeserialize() => runtimeValue = value;
+        public int RuntimeValue
+        {
+            get => _runtimeValue;
+            set
+            {
+                _runtimeValue = value;
+                OnValueChange?.Invoke();
+            }
+        }
+
+        public void OnAfterDeserialize()
+        {
+            _runtimeValue = _value;
+        }
 
         public void OnBeforeSerialize() { }
+        public event OnValueChangeDelegate OnValueChange;
     }
 }

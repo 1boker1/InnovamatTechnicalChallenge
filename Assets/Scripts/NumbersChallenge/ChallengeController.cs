@@ -1,38 +1,50 @@
-﻿using InnovamatTechnicalChallenge.ConfigurationObjects;
-using InnovamatTechnicalChallenge.SOArchitecture;
+﻿using ConfigurationObjects;
+using ConfigurationObjects.Language;
+using ScriptableObjectsArchitecture;
 using UnityEngine;
 
-namespace InnovamatTechnicalChallenge.NumberGame
+namespace NumbersChallenge
 {
     public class ChallengeController : MonoBehaviour
     {
-        public NumberToTextConfiguration enunciateConfiguration;
-        public AnswersConfiguration answerConfiguration;
+        [SerializeField]
+        NumberToTextConfiguration _enunciateConfiguration;
 
-        public ChallengePart questionPanel;
-        public ChallengePart answerPanel;
+        [SerializeField]
+        AnswersConfiguration _answerConfiguration;
 
-        public IntValue correctAnswers;
-        public IntValue wrongAnswers;
+        [SerializeField]
+        ChallengePart _questionPanel;
 
-        public Challenge CurrentChallenge { get; set; }
+        [SerializeField]
+        ChallengePart _answerPanel;
 
-        private void Start()
+        [SerializeField]
+        IntValue _correctAnswers;
+
+        [SerializeField]
+        IntValue _wrongAnswers;
+
+        Challenge CurrentChallenge { get; set; }
+
+        public void Awake()
         {
             StartGame();
         }
-        public void StartGame()
+
+        private void StartGame()
         {
             NextChallenge();
         }
+
         public void NextChallenge()
         {
-            CurrentChallenge=new Challenge(enunciateConfiguration, answerConfiguration);
+            CurrentChallenge = new Challenge(_enunciateConfiguration, _answerConfiguration);
 
-            questionPanel.SetUp(CurrentChallenge);
-            questionPanel.Show();
+            _questionPanel.SetUp(CurrentChallenge);
+            _questionPanel.Show();
 
-            answerPanel.SetUp(CurrentChallenge);
+            _answerPanel.SetUp(CurrentChallenge);
         }
     }
 }

@@ -1,45 +1,52 @@
 ﻿using System;
-using System.Collections.Generic;
 using System.Linq;
 using UnityEngine;
+using UnityEngine.Serialization;
+using Random = UnityEngine.Random;
 
-namespace InnovamatTechnicalChallenge.ConfigurationObjects
+namespace ConfigurationObjects
 {
     [CreateAssetMenu]
     [Serializable]
     public class AnswersConfiguration : ScriptableObject
     {
-        public int amountOfAnswers;
+        [SerializeField]
+        int _amountOfAnswers;
+
         [Min(2)]
-        public int maxDifferenceToAnswer;
+        [SerializeField]
+        int _maxDifferenceToAnswer;
 
         public int[] GetRandomPositiveAnswers(int correctAnswer)
         {
-            int[] _Results = new int[amountOfAnswers];
+            int[] results = new int[_amountOfAnswers];
 
-            int _IndexToEnterCorrectAnswer = UnityEngine.Random.Range(0, amountOfAnswers);
+            int indexToEnterCorrectAnswer = Random.Range(0, _amountOfAnswers);
 
-            _Results[_IndexToEnterCorrectAnswer]=correctAnswer;
+            results[indexToEnterCorrectAnswer] = correctAnswer;
 
-            for (int i = 0; i < amountOfAnswers; i++)
+            for (int i = 0; i < _amountOfAnswers; i++)
             {
-                if(i!=_IndexToEnterCorrectAnswer)
-                    _Results[i]=(GetRandomNumberExcept(correctAnswer - maxDifferenceToAnswer, correctAnswer + maxDifferenceToAnswer, _Results));
+                if (i != indexToEnterCorrectAnswer)
+                {
+                    results[i] = GetRandomNumberExcept(correctAnswer - _maxDifferenceToAnswer,
+                        correctAnswer + _maxDifferenceToAnswer, results);
+                }
             }
 
-            return _Results;
+            return results;
         }
 
         private int GetRandomNumberExcept(int min, int max, int[] exceptions)
         {
-            int _RandomNumber = UnityEngine.Random.Range(min, max + 1);     //+1 becase of [inclusive] / [exclusive] random function
+            int randomNumber = Random.Range(min, max + 1); //+1 because of [inclusive] / [exclusive] random function
 
-            while (exceptions.Contains(_RandomNumber))
+            while (exceptions.Contains(randomNumber))
             {
-                _RandomNumber = UnityEngine.Random.Range(min, max + 1);
+                randomNumber = Random.Range(min, max + 1);
             }
 
-            return _RandomNumber;
+            return randomNumber;
         }
     }
 }

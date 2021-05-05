@@ -1,86 +1,110 @@
-﻿using InnovamatTechnicalChallenge.ConfigurationObjects;
-using InnovamatTechnicalChallenge.SOArchitecture;
+﻿using ConfigurationObjects;
+using ScriptableObjectsArchitecture;
 using UnityEngine;
+using UnityEngine.Serialization;
 using UnityEngine.UI;
 
-namespace InnovamatTechnicalChallenge.NumberGame
+namespace NumbersChallenge
 {
     public class ChallengeOptionUI : MonoBehaviour
     {
         [Header("External Info")]
-        public IntValue currentTry;
+        [SerializeField]
+        IntValue _currentTry;
 
-        public IntValue passedScore;
-        public IntValue failedScore;
+        [SerializeField]
+        IntValue _passedScore;
+
+        [SerializeField]
+        IntValue _failedScore;
 
         [Header("Button Configuration")]
-        public ChoiceButtonConfiguration buttonConfiguration;
+        [SerializeField]
+        ChoiceButtonConfiguration _buttonConfiguration;
 
-        [Header("Button Components")]
-        public Animation buttonAnimation;
-        public AnimationClip fadeAnimation;
+        [Header("Components")]
+        [SerializeField]
+        Animation _buttonAnimation;
 
-        public Image image;
-        public Button button;
-        public Text number;
-        private bool correct;
+        [SerializeField]
+        AnimationClip _fadeAnimation;
 
-        public void SetUpNumber(int _Number, bool _Correct)
+        [SerializeField]
+        Image _image;
+
+        [SerializeField]
+        Button _button;
+
+        [SerializeField]
+        Text _number;
+
+        bool _correct;
+
+        public void SetUpNumber(int number, bool correct)
         {
-            SetColorButton(buttonConfiguration.initialColor);
-            number.color=Color.black;
+            SetColorButton(_buttonConfiguration.GetInitialColor());
+            _number.color = Color.black;
 
-            button.interactable=true;
-            number.text = _Number.ToString();
-            correct = _Correct;
+            _button.interactable = true;
+            _number.text = number.ToString();
+            _correct = correct;
         }
 
         public void OnClick()
         {
-            if (correct)
+            if (_correct)
+            {
                 GoodChoice();
+            }
             else
+            {
                 WrongChoice();
+            }
         }
 
         private void WrongChoice()
         {
-            SetColorButton(buttonConfiguration.wrongChoiceColor);
+            SetColorButton(_buttonConfiguration.GetWrongColor());
 
-            currentTry.RuntimeValue++;
+            _currentTry.RuntimeValue++;
 
-            if (currentTry.RuntimeValue >= 2)
+            if (_currentTry.RuntimeValue >= 2)
             {
-                failedScore.RuntimeValue++;
+                _failedScore.RuntimeValue++;
             }
 
-            PlayAnimationClip(fadeAnimation);
+            PlayAnimationClip(_fadeAnimation);
         }
 
         private void GoodChoice()
         {
-            SetColorButton(buttonConfiguration.goodChoiceColor);
+            SetColorButton(_buttonConfiguration.GetRightColor());
 
-            passedScore.RuntimeValue++;
+            _passedScore.RuntimeValue++;
 
-            PlayAnimationClip(fadeAnimation);
+            PlayAnimationClip(_fadeAnimation);
         }
 
         public void SetColorButton(Color color)
         {
-            image.color = color;
+            _image.color = color;
         }
 
-        private void PlayAnimationClip(AnimationClip Clip)
+        private void PlayAnimationClip(AnimationClip clip)
         {
-            buttonAnimation.clip = Clip;
-            buttonAnimation.Rewind();
-            buttonAnimation.Play();
+            _buttonAnimation.clip = clip;
+            _buttonAnimation.Rewind();
+            _buttonAnimation.Play();
         }
 
         public void Enable(bool enabled)
         {
             gameObject.SetActive(enabled);
+        }
+
+        public ChoiceButtonConfiguration GetCurrentConfiguration()
+        {
+            return _buttonConfiguration;
         }
     }
 }

@@ -1,37 +1,46 @@
 ﻿using System.Collections;
 using UnityEngine;
 using UnityEngine.Events;
+using UnityEngine.Serialization;
 using UnityEngine.UI;
 
-namespace InnovamatTechnicalChallenge.NumberGame
+namespace NumbersChallenge
 {
     public class QuestionUI : ChallengePart
     {
-        public Text enunciate;
+        [SerializeField]
+        Text _enunciate;
 
-        public int timeUntilHidePanel = 2;
+        [SerializeField]
+        int _timeUntilHidePanel = 2;
 
-        public Animation canvasAnimation;
-        public AnimationClip fadeInAnimation;
-        public AnimationClip fadeOutAnimation;
+        [SerializeField]
+        Animation _canvasAnimation;
 
-        public UnityEvent OnQuestionDissappear;
+        [SerializeField]
+        AnimationClip _fadeInAnimation;
+
+        [SerializeField]
+        AnimationClip _fadeOutAnimation;
+
+        [SerializeField]
+        UnityEvent _onQuestionDisappear;
 
         public override void SetUp(Challenge currentChallenge)
         {
-            enunciate.text = currentChallenge.enunciate;
+            _enunciate.text = currentChallenge.Enunciate;
         }
 
         public override void Show()
         {
             gameObject.SetActive(true);
 
-            PlayAnimation(fadeInAnimation);
+            PlayAnimation(_fadeInAnimation);
         }
 
         private IEnumerator WaitToHide()
         {
-            yield return new WaitForSeconds(timeUntilHidePanel);
+            yield return new WaitForSeconds(_timeUntilHidePanel);
 
             Hide();
         }
@@ -43,19 +52,19 @@ namespace InnovamatTechnicalChallenge.NumberGame
 
         public void OnEndFadeOut()
         {
-            OnQuestionDissappear.Invoke();
+            _onQuestionDisappear.Invoke();
         }
 
         public override void Hide()
         {
-            PlayAnimation(fadeOutAnimation);
+            PlayAnimation(_fadeOutAnimation);
         }
 
-        private void PlayAnimation(AnimationClip Clip)
+        private void PlayAnimation(AnimationClip clip)
         {
-            canvasAnimation.clip = Clip;
-            canvasAnimation.Rewind();
-            canvasAnimation.Play();
+            _canvasAnimation.clip = clip;
+            _canvasAnimation.Rewind();
+            _canvasAnimation.Play();
         }
     }
 }

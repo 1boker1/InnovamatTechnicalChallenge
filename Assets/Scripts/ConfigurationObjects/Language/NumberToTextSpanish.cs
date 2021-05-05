@@ -1,72 +1,81 @@
 ﻿using System.Collections.Generic;
 using UnityEngine;
 
-namespace InnovamatTechnicalChallenge.ConfigurationObjects
+namespace ConfigurationObjects.Language
 {
     [CreateAssetMenu]
     public class NumberToTextSpanish : NumberToTextConfiguration
     {
-        private Dictionary<int, string> units = new Dictionary<int, string>()
+        private readonly Dictionary<int, string> _teens = new Dictionary<int, string>
         {
-             { 1, "uno" },
-             { 2, "dos" },
-             { 3, "tres" },
-             { 4, "cuatro" },
-             { 5, "cinco" },
-             { 6, "seis" },
-             { 7, "siete" },
-             { 8, "ocho" },
-             { 9, "nueve" }
+            {1, "once"},
+            {2, "doce"},
+            {3, "trece"},
+            {4, "catorce"},
+            {5, "quince"}
         };
-        private Dictionary<int, string> tens = new Dictionary<int, string>()
+
+        private readonly Dictionary<int, string> _tens = new Dictionary<int, string>
         {
-             { 1, "diez" },
-             { 2, "veinte" },
-             { 3, "treinta" },
-             { 4, "cuarenta" },
-             { 5, "cincuenta" },
-             { 6, "sesenta" },
-             { 7, "setenta" },
-             { 8, "ochenta" },
-             { 9, "noventa" }
+            {1, "diez"},
+            {2, "veinte"},
+            {3, "treinta"},
+            {4, "cuarenta"},
+            {5, "cincuenta"},
+            {6, "sesenta"},
+            {7, "setenta"},
+            {8, "ochenta"},
+            {9, "noventa"}
         };
-        private Dictionary<int, string> teens = new Dictionary<int, string>()
+
+        private readonly Dictionary<int, string> _units = new Dictionary<int, string>
         {
-             { 1, "once" },
-             { 2, "doce" },
-             { 3, "trece" },
-             { 4, "catorce" },
-             { 5, "quince" }
+            {1, "uno"},
+            {2, "dos"},
+            {3, "tres"},
+            {4, "cuatro"},
+            {5, "cinco"},
+            {6, "seis"},
+            {7, "siete"},
+            {8, "ocho"},
+            {9, "nueve"}
         };
 
         public override string GetTextFromNumber(int number)
         {
-            string l_NumberText = "";
+            string numberText = "";
 
-            l_NumberText += GetThousands(number);
-            l_NumberText += GetHundreds(number);
-            l_NumberText += GetTens(number);
-            l_NumberText += GetUnits(number);
+            numberText += GetThousands(number);
+            numberText += GetHundreds(number);
+            numberText += GetTens(number);
+            numberText += GetUnits(number);
 
-            return l_NumberText;
+            return numberText;
         }
 
         private string GetThousands(int number)
         {
             if (number < 1000)
+            {
                 return "";
+            }
+
             if (number < 2000)
+            {
                 return "mil ";
+            }
 
-            int numberWithoutHundredstensandUnits = (int)(number / 1000.0f);
+            int numberWithoutHundredsTensAndUnits = (int)(number / 1000.0f);
 
-            return GetTextFromNumber(numberWithoutHundredstensandUnits) + "mil ";
+            return GetTextFromNumber(numberWithoutHundredsTensAndUnits) + "mil ";
         }
 
         private string GetHundreds(int number)
         {
             if (number < 100)
+            {
                 return "";
+            }
 
             int onlyHundredNumber = GetPlace(number, 100);
 
@@ -74,36 +83,33 @@ namespace InnovamatTechnicalChallenge.ConfigurationObjects
             {
                 return "";
             }
+
             if (number == 100)
             {
                 return "cien ";
             }
-            else if (onlyHundredNumber == 1)
+
+            switch (onlyHundredNumber)
             {
-                return "ciento ";
-            }
-            else if (onlyHundredNumber == 5)
-            {
-                return "quinientos ";
-            }
-            else if (onlyHundredNumber == 7)
-            {
-                return "setecientos ";
-            }
-            else if (onlyHundredNumber == 9)
-            {
-                return "novecientos ";
-            }
-            else
-            {
-                return units[onlyHundredNumber] + "cientos ";
+                case 1:
+                    return "ciento ";
+                case 5:
+                    return "quinientos ";
+                case 7:
+                    return "setecientos ";
+                case 9:
+                    return "novecientos ";
+                default:
+                    return _units[onlyHundredNumber] + "cientos ";
             }
         }
 
         private string GetTens(int number)
         {
             if (number < 10)
+            {
                 return "";
+            }
 
             int onlyTenNumber = GetPlace(number, 10);
             int onlyUnitNumber = GetPlace(number, 1);
@@ -112,27 +118,28 @@ namespace InnovamatTechnicalChallenge.ConfigurationObjects
             {
                 return "";
             }
+
             if (onlyUnitNumber == 0)
             {
-                return tens[onlyTenNumber];
+                return _tens[onlyTenNumber];
             }
 
-            if (onlyTenNumber == 1 && (onlyUnitNumber > 0 && onlyUnitNumber < 6))
+            if (onlyTenNumber == 1 && onlyUnitNumber > 0 && onlyUnitNumber < 6)
             {
-                return teens[onlyTenNumber];
+                return _teens[onlyTenNumber];
             }
-            else if (onlyTenNumber == 1 && (onlyUnitNumber > 5 && onlyUnitNumber < 10))
+
+            if (onlyTenNumber == 1 && onlyUnitNumber > 5 && onlyUnitNumber < 10)
             {
                 return "dieci";
             }
-            else if (number > 20 && number < 30)
+
+            if (number > 20 && number < 30)
             {
                 return "veinti";
             }
-            else
-            {
-                return tens[onlyTenNumber] + " y ";
-            }
+
+            return _tens[onlyTenNumber] + " y ";
         }
 
         private string GetUnits(int number)
@@ -144,14 +151,13 @@ namespace InnovamatTechnicalChallenge.ConfigurationObjects
             {
                 return "cero";
             }
-            if (onlyUnitNumber == 0 || (onlyTenNumber == 1 && (onlyUnitNumber > 0 && onlyUnitNumber < 6)))
+
+            if (onlyUnitNumber == 0 || onlyTenNumber == 1 && onlyUnitNumber > 0 && onlyUnitNumber < 6)
             {
                 return "";
             }
-            else
-            {
-                return units[onlyUnitNumber]+" ";
-            }
+
+            return _units[onlyUnitNumber] + " ";
         }
     }
 }

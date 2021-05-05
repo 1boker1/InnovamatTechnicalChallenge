@@ -1,97 +1,115 @@
-﻿using InnovamatTechnicalChallenge.SOArchitecture;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
+using ScriptableObjectsArchitecture;
 using UnityEngine;
 using UnityEngine.Events;
 
-namespace InnovamatTechnicalChallenge.NumberGame
+namespace NumbersChallenge
 {
     public class AnswerUI : ChallengePart
     {
-        public ChallengeOptionUI answerPrefab;
-        public List<ChallengeOptionUI> answers = new List<ChallengeOptionUI>();
+        [SerializeField]
+        private ChallengeOptionUI _answerPrefab;
 
-        public Animation canvasAnimation;
-        public AnimationClip fadeInAnimation;
-        public AnimationClip fadeOutAnimation;
+        [SerializeField]
+        private List<ChallengeOptionUI> _answers = new List<ChallengeOptionUI>();
 
-        public IntValue passedScore;
-        public IntValue failedScore;
-        public IntValue currentTries;
-        private ChallengeOptionUI correctAnswer;
+        [SerializeField]
+        private Animation _canvasAnimation;
 
-        public UnityEvent OnHideAnswers;
+        [SerializeField]
+        private AnimationClip _fadeInAnimation;
 
-        private void OnEnable()
+        [SerializeField]
+        private AnimationClip _fadeOutAnimation;
+
+        [SerializeField]
+        private IntValue _passedScore;
+
+        [SerializeField]
+        private IntValue _failedScore;
+
+        [SerializeField]
+        private IntValue _currentTries;
+
+        [SerializeField]
+        private UnityEvent _onHideAnswers;
+
+        ChallengeOptionUI _correctAnswer;
+
+        private void Awake()
         {
-            failedScore.OnValueChange += OnFailedChoice;
-            passedScore.OnValueChange += OnGoodChoice;
+            _failedScore.OnValueChange += OnFailedChoice;
+            _passedScore.OnValueChange += OnGoodChoice;
+        }
+
+        private void OnDestroy()
+        {
+            _failedScore.OnValueChange -= OnFailedChoice;
+            _passedScore.OnValueChange -= OnGoodChoice;
         }
 
         public override void SetUp(Challenge currentChallenge)
         {
-            currentTries.RuntimeValue=0;
-            ManageAnswersPrefabList(currentChallenge.answers.Length);
+            _currentTries.RuntimeValue = 0;
+            ManageAnswersPrefabList(currentChallenge.Answers.Length);
 
-            for (int i = 0; i < currentChallenge.answers.Length; i++)
+            for (int i = 0; i < currentChallenge.Answers.Length; i++)
             {
-                if (currentChallenge.answers[i] == currentChallenge.correctAnswer)
-                    correctAnswer = answers[i];
+                if (currentChallenge.Answers[i] == currentChallenge.CorrectAnswer)
+                {
+                    _correctAnswer = _answers[i];
+                }
 
-                answers[i].SetUpNumber(currentChallenge.answers[i], currentChallenge.answers[i] == currentChallenge.correctAnswer);
+                _answers[i].SetUpNumber(currentChallenge.Answers[i],
+                    currentChallenge.Answers[i] == currentChallenge.CorrectAnswer);
             }
         }
 
         public override void Show()
         {
-            canvasAnimation.clip = fadeInAnimation;
-            canvasAnimation.Play();
+            _canvasAnimation.clip = _fadeInAnimation;
+            _canvasAnimation.Play();
         }
 
         public override void Hide()
         {
-            canvasAnimation.clip = fadeOutAnimation;
-            canvasAnimation.Play();
+            _canvasAnimation.clip = _fadeOutAnimation;
+            _canvasAnimation.Play();
         }
 
         public void OnHideAnimationEnded()
         {
-            OnHideAnswers.Invoke();
+            _onHideAnswers.Invoke();
         }
 
-        public void ManageAnswersPrefabList(int Amount)
+        private void ManageAnswersPrefabList(int amount)
         {
-            int answerAmountToSpawn = Amount - answers.Count;
+            int answerAmountToSpawn = amount - _answers.Count;
 
             if (answerAmountToSpawn > 0)
             {
                 for (int i = 0; i < answerAmountToSpawn; i++)
                 {
-                    answers.Add(Instantiate(answerPrefab, transform));
+                    _answers.Add(Instantiate(_answerPrefab, transform));
                 }
             }
 
-            for (int i = 0; i < answers.Count; i++)
+            for (int i = 0; i < _answers.Count; i++)
             {
-                answers[i].Enable(i < Amount);
+                _answers[i].Enable(i < amount);
             }
         }
 
-        public void OnFailedChoice()
+        private void OnFailedChoice()
         {
-            correctAnswer.SetColorButton(correctAnswer.buttonConfiguration.goodChoiceColor);
+            _correctAnswer.SetColorButton(_correctAnswer.GetCurrentConfiguration().GetRightColor());
 
             Hide();
         }
 
-        public void OnGoodChoice()
+        private void OnGoodChoice()
         {
             Hide();
-        }
-
-        private void OnDisable()
-        {
-            failedScore.OnValueChange -= OnFailedChoice;
-            passedScore.OnValueChange -= OnGoodChoice;
         }
     }
 }

@@ -1,20 +1,20 @@
-﻿using InnovamatTechnicalChallenge.ConfigurationObjects;
+﻿using ConfigurationObjects;
+using ConfigurationObjects.Language;
 using UnityEngine;
 
-namespace InnovamatTechnicalChallenge.NumberGame
+namespace NumbersChallenge
 {
     public class Challenge
     {
-        public string enunciate;
+        public int[] Answers { get; }
+        public int CorrectAnswer { get; }
+        public string Enunciate { get; }
 
-        public int[] answers;
-        public int correctAnswer;
-
-        public Challenge(NumberToTextConfiguration TextConfigurator, AnswersConfiguration AnswerConfigurator)
+        public Challenge(NumberToTextConfiguration textConfigurator, AnswersConfiguration answerConfigurator)
         {
-            correctAnswer = Random.Range(0, TextConfigurator.maxNumber);
-            enunciate = TextConfigurator.GetTextFromNumber(correctAnswer);
-            answers = AnswerConfigurator.GetRandomPositiveAnswers(correctAnswer);
+            CorrectAnswer = Random.Range(0, textConfigurator.GetMaxNumber());
+            Enunciate = textConfigurator.GetTextFromNumber(CorrectAnswer);
+            Answers = answerConfigurator.GetRandomPositiveAnswers(CorrectAnswer);
         }
     }
 }

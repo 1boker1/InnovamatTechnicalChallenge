@@ -2,13 +2,14 @@
 using UnityEditor;
 using UnityEngine;
 
-namespace InnovamatTechnicalChallenge.ConfigurationObjects
+namespace ConfigurationObjects.Language
 {
     [CustomEditor(typeof(NumberToTextSpanish))]
     public class NumberToTextSpanishEditor : Editor
     {
         [Min(0)]
-        private int numberToTest = 0;
+        private int numberToTest;
+
         private string result = "sasa";
 
         public override void OnInspectorGUI()
@@ -25,17 +26,19 @@ namespace InnovamatTechnicalChallenge.ConfigurationObjects
             GUILayout.BeginHorizontal();
             if (GUILayout.Button("Test"))
             {
-                NumberToTextSpanish numberToText = (target as NumberToTextSpanish);
+                NumberToTextSpanish numberToText = target as NumberToTextSpanish;
 
                 result = numberToText.GetTextFromNumber(numberToTest);
             }
+
             if (GUILayout.Button("Test Random"))
             {
-                NumberToTextSpanish numberToText = (target as NumberToTextSpanish);
+                NumberToTextSpanish numberToText = target as NumberToTextSpanish;
 
                 numberToTest = Random.Range(0, 999999);
                 result = numberToText.GetTextFromNumber(numberToTest);
             }
+
             GUILayout.EndHorizontal();
 
             GUILayout.Space(10);
