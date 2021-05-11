@@ -235,14 +235,13 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 1fd3778d8771ef143a69e4a34c7d103e, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  enunciateConfiguration: {fileID: 11400000, guid: bccdf2646846c92498f722dcab31c094,
+  _enunciateConfiguration: {fileID: 11400000, guid: bccdf2646846c92498f722dcab31c094,
     type: 2}
-  answerConfiguration: {fileID: 11400000, guid: b3aa7f355e07b6a47a09c4b6c00f5441,
+  _answerConfiguration: {fileID: 11400000, guid: b3aa7f355e07b6a47a09c4b6c00f5441,
     type: 2}
-  questionPanel: {fileID: 390509362}
-  answerPanel: {fileID: 1567259841}
-  correctAnswers: {fileID: 11400000, guid: 91141447a330fc54a90b000451e75b62, type: 2}
-  wrongAnswers: {fileID: 11400000, guid: 5f0b1016a029a574db9f3e9d391fe02b, type: 2}
+  _enunciateState: {fileID: 390509362}
+  _answerState: {fileID: 1567259841}
+  _tries: {fileID: 11400000, guid: 9f46aa45bf241614b975459442e95782, type: 2}
 --- !u!1 &390509360
 GameObject:
   m_ObjectHideFlags: 0
@@ -253,10 +252,11 @@ GameObject:
   m_Component:
   - component: {fileID: 390509361}
   - component: {fileID: 390509364}
-  - component: {fileID: 390509362}
   - component: {fileID: 390509363}
+  - component: {fileID: 390509365}
+  - component: {fileID: 390509362}
   m_Layer: 5
-  m_Name: QuestionParent
+  m_Name: Enunciate
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -294,36 +294,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 8bf3a2d6f70f26040bc71269781db9e6, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  enunciate: {fileID: 1747813290}
-  timeUntilHidePanel: 2
-  canvasAnimation: {fileID: 390509363}
-  fadeInAnimation: {fileID: 7400000, guid: 87b3439089293624e921fb4cf5caf796, type: 2}
-  fadeOutAnimation: {fileID: 7400000, guid: b1ea566666ad2bb4a8946261215f8dfc, type: 2}
-  OnQuestionDissappear:
-    m_PersistentCalls:
-      m_Calls:
-      - m_Target: {fileID: 1567259841}
-        m_MethodName: Show
-        m_Mode: 1
-        m_Arguments:
-          m_ObjectArgument: {fileID: 0}
-          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
-          m_IntArgument: 0
-          m_FloatArgument: 0
-          m_StringArgument: 
-          m_BoolArgument: 0
-        m_CallState: 2
-      - m_Target: {fileID: 1567259837}
-        m_MethodName: SetActive
-        m_Mode: 6
-        m_Arguments:
-          m_ObjectArgument: {fileID: 0}
-          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
-          m_IntArgument: 0
-          m_FloatArgument: 0
-          m_StringArgument: 
-          m_BoolArgument: 1
-        m_CallState: 2
+  _enunciate: {fileID: 1747813290}
+  _timeUntilHidePanel: 2
+  _fade: {fileID: 390509365}
 --- !u!111 &390509363
 Animation:
   m_ObjectHideFlags: 0
@@ -353,6 +326,52 @@ CanvasGroup:
   m_Interactable: 1
   m_BlocksRaycasts: 1
   m_IgnoreParentGroups: 0
+--- !u!114 &390509365
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 390509360}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 83486cfa6b2a4b54b8bc08b4e57a05b2, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  _fadeIn:
+    _animation: {fileID: 390509363}
+    _fadeClip: {fileID: 7400000, guid: 87b3439089293624e921fb4cf5caf796, type: 2}
+    _onEnd:
+      m_PersistentCalls:
+        m_Calls:
+        - m_Target: {fileID: 390509362}
+          m_MethodName: StartStateChange
+          m_Mode: 1
+          m_Arguments:
+            m_ObjectArgument: {fileID: 0}
+            m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+            m_IntArgument: 0
+            m_FloatArgument: 0
+            m_StringArgument: 
+            m_BoolArgument: 0
+          m_CallState: 2
+  _fadeOut:
+    _animation: {fileID: 390509363}
+    _fadeClip: {fileID: 7400000, guid: b1ea566666ad2bb4a8946261215f8dfc, type: 2}
+    _onEnd:
+      m_PersistentCalls:
+        m_Calls:
+        - m_Target: {fileID: 1567259841}
+          m_MethodName: OnEnterState
+          m_Mode: 1
+          m_Arguments:
+            m_ObjectArgument: {fileID: 0}
+            m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+            m_IntArgument: 0
+            m_FloatArgument: 0
+            m_StringArgument: 
+            m_BoolArgument: 0
+          m_CallState: 2
 --- !u!1 &581134148
 GameObject:
   m_ObjectHideFlags: 0
@@ -768,8 +787,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: aa4ca44f3d0cf404395a7cfe3f85b8e7, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  value: {fileID: 11400000, guid: 5f0b1016a029a574db9f3e9d391fe02b, type: 2}
-  textValue: {fileID: 1126339774}
+  _value: {fileID: 11400000, guid: 5f0b1016a029a574db9f3e9d391fe02b, type: 2}
+  _textValue: {fileID: 1126339774}
 --- !u!114 &1126339772
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -852,15 +871,18 @@ GameObject:
   - component: {fileID: 1567259838}
   - component: {fileID: 1567259840}
   - component: {fileID: 1567259839}
-  - component: {fileID: 1567259841}
   - component: {fileID: 1567259842}
+  - component: {fileID: 1567259843}
+  - component: {fileID: 1567259841}
+  - component: {fileID: 1567259845}
+  - component: {fileID: 1567259844}
   m_Layer: 5
-  m_Name: AnswersParent
+  m_Name: Answer
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!224 &1567259838
 RectTransform:
   m_ObjectHideFlags: 0
@@ -929,16 +951,11 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 500e801fabdf2424d84646c47712883b, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  answerPrefab: {fileID: 4447357836562442213, guid: ef464c9d1afa5d644a87b18ba8e0565f,
+  _answerPrefab: {fileID: 4447357836562442213, guid: ef464c9d1afa5d644a87b18ba8e0565f,
     type: 3}
-  answers: []
-  canvasAnimation: {fileID: 1567259842}
-  fadeInAnimation: {fileID: 7400000, guid: 17e2c1021806a3841a05463dd09f57e5, type: 2}
-  fadeOutAnimation: {fileID: 7400000, guid: bd7937a157dae4e46b99610ccac2f13d, type: 2}
-  passedScore: {fileID: 11400000, guid: 91141447a330fc54a90b000451e75b62, type: 2}
-  failedScore: {fileID: 11400000, guid: 5f0b1016a029a574db9f3e9d391fe02b, type: 2}
-  currentTries: {fileID: 11400000, guid: 9f46aa45bf241614b975459442e95782, type: 2}
-  OnHideAnswers:
+  _answers: []
+  _fade: {fileID: 1567259843}
+  _onHideAnswers:
     m_PersistentCalls:
       m_Calls:
       - m_Target: {fileID: 25530910}
@@ -969,6 +986,95 @@ Animation:
   m_PlayAutomatically: 0
   m_AnimatePhysics: 0
   m_CullingType: 0
+--- !u!114 &1567259843
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1567259837}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 83486cfa6b2a4b54b8bc08b4e57a05b2, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  _fadeIn:
+    _animation: {fileID: 1567259842}
+    _fadeClip: {fileID: 7400000, guid: 17e2c1021806a3841a05463dd09f57e5, type: 2}
+    _onEnd:
+      m_PersistentCalls:
+        m_Calls: []
+  _fadeOut:
+    _animation: {fileID: 1567259842}
+    _fadeClip: {fileID: 7400000, guid: bd7937a157dae4e46b99610ccac2f13d, type: 2}
+    _onEnd:
+      m_PersistentCalls:
+        m_Calls:
+        - m_Target: {fileID: 25530910}
+          m_MethodName: NextChallenge
+          m_Mode: 1
+          m_Arguments:
+            m_ObjectArgument: {fileID: 0}
+            m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+            m_IntArgument: 0
+            m_FloatArgument: 0
+            m_StringArgument: 
+            m_BoolArgument: 0
+          m_CallState: 2
+--- !u!114 &1567259844
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1567259837}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: d1852ff411ad43dd82c3b340c58828a6, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  _value: {fileID: 11400000, guid: 91141447a330fc54a90b000451e75b62, type: 2}
+  _onValueChange:
+    m_PersistentCalls:
+      m_Calls:
+      - m_Target: {fileID: 1567259841}
+        m_MethodName: OnGoodChoice
+        m_Mode: 1
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
+--- !u!114 &1567259845
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1567259837}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: d1852ff411ad43dd82c3b340c58828a6, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  _value: {fileID: 11400000, guid: 5f0b1016a029a574db9f3e9d391fe02b, type: 2}
+  _onValueChange:
+    m_PersistentCalls:
+      m_Calls:
+      - m_Target: {fileID: 1567259841}
+        m_MethodName: OnFailedChoice
+        m_Mode: 1
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
 --- !u!1 &1611160528
 GameObject:
   m_ObjectHideFlags: 0
@@ -1365,8 +1471,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: aa4ca44f3d0cf404395a7cfe3f85b8e7, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  value: {fileID: 11400000, guid: 91141447a330fc54a90b000451e75b62, type: 2}
-  textValue: {fileID: 2133093201}
+  _value: {fileID: 11400000, guid: 91141447a330fc54a90b000451e75b62, type: 2}
+  _textValue: {fileID: 2133093201}
 --- !u!114 &2133093199
 MonoBehaviour:
   m_ObjectHideFlags: 0

@@ -1,10 +1,9 @@
 ﻿using ConfigurationObjects;
 using ScriptableObjectsArchitecture;
 using UnityEngine;
-using UnityEngine.Serialization;
 using UnityEngine.UI;
 
-namespace NumbersChallenge
+namespace Challenge
 {
     public class ChallengeOptionUI : MonoBehaviour
     {

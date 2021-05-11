@@ -1,11 +1,13 @@
 ﻿using System.Collections.Generic;
+using Challenge;
 using ScriptableObjectsArchitecture;
 using UnityEngine;
 using UnityEngine.Events;
+using Utils;
 
-namespace NumbersChallenge
+namespace ChallengeStates
 {
-    public class AnswerUI : ChallengePart
+    public class AnswerChallengeState : ChallengeState
     {
         [SerializeField]
         private ChallengeOptionUI _answerPrefab;
@@ -14,43 +16,12 @@ namespace NumbersChallenge
         private List<ChallengeOptionUI> _answers = new List<ChallengeOptionUI>();
 
         [SerializeField]
-        private Animation _canvasAnimation;
-
-        [SerializeField]
-        private AnimationClip _fadeInAnimation;
-
-        [SerializeField]
-        private AnimationClip _fadeOutAnimation;
-
-        [SerializeField]
-        private IntValue _passedScore;
-
-        [SerializeField]
-        private IntValue _failedScore;
-
-        [SerializeField]
-        private IntValue _currentTries;
-
-        [SerializeField]
-        private UnityEvent _onHideAnswers;
-
+        Fade _fade;
+        
         ChallengeOptionUI _correctAnswer;
-
-        private void Awake()
+        
+        public override void SetUp(Challenge.Challenge currentChallenge)
         {
-            _failedScore.OnValueChange += OnFailedChoice;
-            _passedScore.OnValueChange += OnGoodChoice;
-        }
-
-        private void OnDestroy()
-        {
-            _failedScore.OnValueChange -= OnFailedChoice;
-            _passedScore.OnValueChange -= OnGoodChoice;
-        }
-
-        public override void SetUp(Challenge currentChallenge)
-        {
-            _currentTries.RuntimeValue = 0;
             ManageAnswersPrefabList(currentChallenge.Answers.Length);
 
             for (int i = 0; i < currentChallenge.Answers.Length; i++)
@@ -63,25 +34,22 @@ namespace NumbersChallenge
                 _answers[i].SetUpNumber(currentChallenge.Answers[i],
                     currentChallenge.Answers[i] == currentChallenge.CorrectAnswer);
             }
+            
         }
 
-        public override void Show()
+        public override void OnEnterState()
         {
-            _canvasAnimation.clip = _fadeInAnimation;
-            _canvasAnimation.Play();
+            CurrentState = this;
+            gameObject.SetActive(true);
+
+            _fade.GetFadeIn().Execute();
         }
 
-        public override void Hide()
+        public override void OnExitState()
         {
-            _canvasAnimation.clip = _fadeOutAnimation;
-            _canvasAnimation.Play();
+            _fade.GetFadeOut().Execute();
         }
-
-        public void OnHideAnimationEnded()
-        {
-            _onHideAnswers.Invoke();
-        }
-
+        
         private void ManageAnswersPrefabList(int amount)
         {
             int answerAmountToSpawn = amount - _answers.Count;
@@ -100,16 +68,16 @@ namespace NumbersChallenge
             }
         }
 
-        private void OnFailedChoice()
+        public void OnFailedChoice()
         {
             _correctAnswer.SetColorButton(_correctAnswer.GetCurrentConfiguration().GetRightColor());
 
-            Hide();
+            OnExitState();
         }
 
-        private void OnGoodChoice()
+        public void OnGoodChoice()
         {
-            Hide();
+            OnExitState();
         }
     }
 }

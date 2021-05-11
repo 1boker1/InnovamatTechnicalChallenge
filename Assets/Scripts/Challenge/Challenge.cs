@@ -2,7 +2,7 @@
 using ConfigurationObjects.Language;
 using UnityEngine;
 
-namespace NumbersChallenge
+namespace Challenge
 {
     public class Challenge
     {

@@ -12,6 +12,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: f7e1dd39ba686fc408a6ece77cb03c97, type: 3}
   m_Name: Choice Button Configuration
   m_EditorClassIdentifier: 
-  wrongChoiceColor: {r: 1, g: 0, b: 0, a: 1}
-  goodChoiceColor: {r: 0.11273074, g: 1, b: 0, a: 1}
-  initialColor: {r: 1, g: 1, b: 1, a: 1}
+  _wrongChoiceColor: {r: 1, g: 0.1503219, b: 0, a: 1}
+  _rightChoiceColor: {r: 0, g: 1, b: 0.07280898, a: 1}
+  _initialColor: {r: 1, g: 1, b: 1, a: 1}
